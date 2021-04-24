@@ -18,16 +18,69 @@
       <form action="/action_page.php">
         <div class="form-group">
           <label for="sel1">Country:</label>
-          <select class="form-control" id="Country" name="Country" required>
-            <option value="">--select country--</option>
+          <select class="form-control" id="Country" name="Country" onchange="getState(this)" required>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="State">State:</label>
+          <select class="form-control" id="State" name="State" onchange="getCity(this)" required>
+            <option value="">--select state--</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="City">City:</label>
+          <select class="form-control" id="City" name="City" required>
+            <option value="">--select city--</option>
           </select>
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
       </form>
     </div>
     <script>
+       var countryObj = [
+        { id: 1, countryName: "India", countryCode: "IN" },
+        { id: 2, countryName: "Pakistan", countryCode: "PK" }
+      ];
+       var stateObj = [
+        { id: 1, stateName: "Bihar", countryId: 1 },
+        { id: 2, stateName: "Jharkhand", countryId: 1 },
+        { id: 3, stateName: "Karanchi", countryId: 2 }
+      ];
+       var cityObj = [
+        { id: 1, cityName: "Patna", stateId: 1 },
+        { id: 2, cityName: "Gaya", stateId: 1 },
+        { id: 3, cityName: "Ranchi", stateId: 2 }
+      ];
       getCountry();
-      function getCountry() {}
+      function getCountry() {
+        let countryHTML = document.getElementById("Country");
+        let prepareCountryOption = "<option value=''>--select country--</option>";
+          for(let i = 0; i < countryObj.length; i++){
+            prepareCountryOption += "<option value='"+countryObj[i]['id']+"'>"+countryObj[i]['countryName']+"</option>";
+          }
+          countryHTML.innerHTML = prepareCountryOption;
+      }
+      function getState(event) {
+        let countryId = document.getElementById("Country").value
+        document.getElementById("City").innerHTML ="<option value=''>--select city--</option>";
+        let stateHTML = document.getElementById("State");
+        let prepareStateOption = "<option value=''>--select state--</option>";
+        let filterdStates = stateObj.filter((data)=> data.countryId == countryId);
+          for(let i = 0; i < filterdStates.length; i++){
+            prepareStateOption += "<option value='"+filterdStates[i]['id']+"'>"+filterdStates[i]['stateName']+"</option>";
+          }
+          stateHTML.innerHTML = prepareStateOption;
+      }
+      function getCity(event) {
+        let stateId = document.getElementById("State").value
+        let cityHTML = document.getElementById("City");
+        let prepareCityOption = "<option value=''>--select city--</option>";
+        let filterdCity = cityObj.filter((data)=> data.stateId == stateId);
+          for(let i = 0; i < filterdCity.length; i++){
+            prepareCityOption += "<option value='"+filterdCity[i]['id']+"'>"+filterdCity[i]['cityName']+"</option>";
+          }
+          cityHTML.innerHTML = prepareCityOption;
+      }
     </script>
   </body>
 </html>
