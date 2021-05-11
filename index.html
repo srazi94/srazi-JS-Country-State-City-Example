@@ -51,15 +51,15 @@
         { id: 2, cityName: "Gaya", stateId: 1 },
         { id: 3, cityName: "Ranchi", stateId: 2 }
       ];
-      getCountry();
-      function getCountry() {
+      
+      (function getCountry() {
         let countryHTML = document.getElementById("Country");
         let prepareCountryOption = "<option value=''>--select country--</option>";
           for(let i = 0; i < countryObj.length; i++){
             prepareCountryOption += "<option value='"+countryObj[i]['id']+"'>"+countryObj[i]['countryName']+"</option>";
           }
           countryHTML.innerHTML = prepareCountryOption;
-      }
+      }());
       function getState(event) {
         let countryId = document.getElementById("Country").value
         document.getElementById("City").innerHTML ="<option value=''>--select city--</option>";
